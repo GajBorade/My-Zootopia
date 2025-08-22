@@ -8,7 +8,7 @@ def load_data(file_path):
     :param file_path: Path to json file
     :return: list of nested dictionaries representing data
     """
-    with open(file_path) as handle:
+    with open(file_path, "r", encoding="utf-8") as handle:
         return json.load(handle)
 
 
@@ -47,7 +47,7 @@ for animal in animals_data:
     locations = animal.get("locations")
     location_str = locations[0] if locations else "Unknown"
     output += f"    Location: {location_str}<br>\n"
-    output += f"    Type: {animal.get('type', 'Not available')}<br></p>\n"
+    output += f"    Type: {animal['characteristics'].get('type', 'Not available')}<br></p>\n"
     output += f"    </li>\n"
 
 print(output)
