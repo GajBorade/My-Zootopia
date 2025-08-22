@@ -40,7 +40,7 @@ with open("animals_template.html", "r", encoding='utf-8') as fileobject:
 # Use break tags & wrap animals in block elements p
 output: str = "" # define empty string
 for animal in animals_data:
-    #append information to eah string
+    #append information to each string
     output += f"    <li>\n"
     output += f"    <p>Name: {animal.get('name', 'not available')}<br>\n"
     output += f"    Diet: {animal['characteristics'].get('diet', 'Not available')}<br>\n"
