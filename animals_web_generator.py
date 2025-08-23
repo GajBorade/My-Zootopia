@@ -12,83 +12,111 @@ def load_data(file_path):
         return json.load(handle)
 
 
-filename = "animals_data.json"
-animals_data = load_data(filename)
+def print_animals_data(animals_data):
+    """
+    Prints data about animals
 
-for animal in animals_data:
-    name = animal.get("name", "Unknown")
+    :return: None
+    """
+    for animal in animals_data:
+        name = animal.get("name", "Unknown")
 
-    diet = animal["characteristics"].get("diet", "Unknown")
+        characteristics = animal.get("characteristics", {})
+        diet = characteristics.get("diet", "Unknown")
 
-    animal_type = animal["characteristics"].get("type", "Unknown")
+        animal_type = characteristics.get("type", "Unknown")
 
-    # location = ", ".join(animal['locations']) # for all locations
-    locations = animal.get("locations")
-    location = locations[0] if locations else "Unknown"
+        locations = animal.get("locations")
+        location = locations[0] if locations else "Unknown"
 
-    print(f"Name: {name}\nDiet: {diet}\nLocation: {location}\nType: {animal_type}\n")
+        print(f"Name: {name}\nDiet: {diet}\nLocation: {location}\nType: {animal_type}\n")
+
 
 # 1. Read the contents of the template, animals_template.html
-# As html template is in the same folder no need to specify
-# path hence no os import required.
+def read_html_template(template_path):
+    """
+    Reads an HTML template from a file.
 
-with open("animals_template.html", "r", encoding='utf-8') as fileobject:
-    animals_template = fileobject.read()
+    :param template_path: Path to the HTML template file.
+    :return: Content of the template file as a string.
+    """
+    with open(template_path, "r", encoding='utf-8') as fileobject:
+        return fileobject.read()
 
 
 # 2. Generate a string with the animals’ data
-# Use break tags & wrap animals in block elements p
-"""
-Wrap the animal name in a <div class="card__title">…</div>.
+# Use HTML tags & wrap animals in block elements p
+def serialize_animals_data(animals_obj):
+    """
+    Serializes a list of animals into HTML list items.
 
-Wrap the other details in a <p class="card__text">…</p>.
+    :param animals_obj: list of nested dictionaries, each representing an animal.
+    :return: A string containing HTML representation of all animals
+    """
+    output = ""
+    for animal in animals_obj:
+        #append information to each string
+        output += f'    <li class="cards__item">\n'
+        output += f'        <div class="card__title">{animal.get("name", "not available")}</div>\n'
+        output += f'        <p class="card__text">'
 
-Use <strong> tags for labels like Diet, Location, Type.
+        characteristics = animal.get("characteristics", {})
+        output += f'            <strong>Diet</strong>: {characteristics.get("diet", "Not available")}<br>\n'
 
-<li class="cards__item">
-  <div class="card__title">Wire Fox Terrier</div>
-  <p class="card__text">
-      <strong>Diet:</strong> Carnivore<br/>
-      <strong>Location:</strong> North-America and Canada<br/>
-      <strong>Type:</strong> mamal<br/>
-  </p>
-</li>
+        locations = animal.get("locations")
+        location_str = locations[0] if locations else "Unknown"
+        output += f'            <strong>Location</strong>: {location_str}<br>\n'
+        output += f'            <strong>Type</strong>: {characteristics.get("type", "Not available")}<br>\n'
+        output += f'        </p>\n'
+        output += f'    </li>\n'
+    return output
 
-output += f'    <li class="cards__item">\n'
-output += f'        <div class="card__title">{animal["name"]}</div>\n'
-output += f'        <p class="card__text">\n'
-output += f'            <strong>Diet:</strong> {animal["characteristics"].get("diet", "Not available")}<br>\n'
-output += f'            <strong>Location:</strong> {location_str}<br>\n'
-output += f'            <strong>Type:</strong> {animal["characteristics"].get("type", "Not available")}<br>\n'
-output += f'        </p>\n'
-output += f'    </li>\n'
-
-
-
-
-
-"""
-output: str = "" # define empty string
-for animal in animals_data:
-    #append information to each string
-    output += f'    <li class="cards__item">\n'
-    output += f'        <div class="card__title">{animal.get("name", "not available")}<br></div>\n'
-    output += f'        <p class="card__text">'
-    output += f'            <strong>Diet</strong>: {animal["characteristics"].get("diet", "Not available")}<br>\n'
-
-    locations = animal.get("locations")
-    location_str = locations[0] if locations else "Unknown"
-    output += f'            <strong>Location</strong>: {location_str}<br>\n'
-    output += f'            <strong>Type</strong>: {animal["characteristics"].get("type", "Not available")}<br>\n'
-    output += f'        </p>\n'
-    output += f'    </li>\n'
-
-print(output)
-
-# Step 3. Replace __REPLACE_ANIMALS_INFO__ with the generated string
-
-html_data = animals_template.replace("__REPLACE_ANIMALS_INFO__", output)
 
 # Step 4. Write this new string to the 'new' html file
-with open("animals.html", "w", encoding='utf-8') as fileobject:
-    fileobject.write(html_data)
+def write_html_template(html_data):
+    """
+    Writes the given HTML content (str) to the 'animals.html' file.
+
+    :param html_data: A string containing the full HTML content (str)
+    to be written to the file.
+    :return: None
+    """
+    with open("animals.html", "w", encoding='utf-8') as fileobject:
+        fileobject.write(html_data)
+
+
+def main():
+    """
+    Controls the flow of the program:
+    - Loads animal data from JSON
+    - Prints animals data to console
+    - Reads HTML template
+    - Serializes animal data into HTML list items
+    - Writes final HTML file to disk
+
+    :return: None
+    """
+    # Load animal data from json file
+    filename = "animals_data.json"
+    animals_data = load_data(filename)
+
+    # Print data for console inspection
+    print_animals_data(animals_data)
+
+    # Read HTML template
+    animals_template_path = "animals_template.html"
+    animals_template_html = read_html_template(animals_template_path)
+
+    # Step 3: Replace __REPLACE_ANIMALS_INFO__ with the generated string
+    # to serialize animals into HTML
+    final_html = animals_template_html.replace(
+        "__REPLACE_ANIMALS_INFO__",
+        serialize_animals_data(animals_data)
+    )
+
+    # Write final HTML to file
+    write_html_template(final_html)
+
+
+if __name__ == "__main__":
+    main()
