@@ -59,6 +59,7 @@
         }
 
         .card__title {
+            margin-bottom: 0.5rem; /* space after name */
             color: var(--gray-dark);
             font-size: 1.25rem;
             font-weight: 300;
@@ -71,6 +72,23 @@
             font-size: 0.95rem;
             line-height: 2;
             margin-bottom: 1.25rem;
+        }
+
+        .card_details {
+            list-style: none; /* remove bullets */
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .card_detail {
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .card_detail strong {
+            display: inline-block;
+            width: 100px; /* align the labels */
+            font-weight: 600;
         }
     </style>
 </head>
