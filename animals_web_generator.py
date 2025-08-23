@@ -38,17 +38,50 @@ with open("animals_template.html", "r", encoding='utf-8') as fileobject:
 
 # 2. Generate a string with the animals’ data
 # Use break tags & wrap animals in block elements p
+"""
+Wrap the animal name in a <div class="card__title">…</div>.
+
+Wrap the other details in a <p class="card__text">…</p>.
+
+Use <strong> tags for labels like Diet, Location, Type.
+
+<li class="cards__item">
+  <div class="card__title">Wire Fox Terrier</div>
+  <p class="card__text">
+      <strong>Diet:</strong> Carnivore<br/>
+      <strong>Location:</strong> North-America and Canada<br/>
+      <strong>Type:</strong> mamal<br/>
+  </p>
+</li>
+
+output += f'    <li class="cards__item">\n'
+output += f'        <div class="card__title">{animal["name"]}</div>\n'
+output += f'        <p class="card__text">\n'
+output += f'            <strong>Diet:</strong> {animal["characteristics"].get("diet", "Not available")}<br>\n'
+output += f'            <strong>Location:</strong> {location_str}<br>\n'
+output += f'            <strong>Type:</strong> {animal["characteristics"].get("type", "Not available")}<br>\n'
+output += f'        </p>\n'
+output += f'    </li>\n'
+
+
+
+
+
+"""
 output: str = "" # define empty string
 for animal in animals_data:
     #append information to each string
-    output += f"    <li>\n"
-    output += f"    <p>Name: {animal.get('name', 'not available')}<br>\n"
-    output += f"    Diet: {animal['characteristics'].get('diet', 'Not available')}<br>\n"
+    output += f'    <li class="cards__item">\n'
+    output += f'        <div class="card__title">{animal.get("name", "not available")}<br></div>\n'
+    output += f'        <p class="card__text">'
+    output += f'            <strong>Diet</strong>: {animal["characteristics"].get("diet", "Not available")}<br>\n'
+
     locations = animal.get("locations")
     location_str = locations[0] if locations else "Unknown"
-    output += f"    Location: {location_str}<br>\n"
-    output += f"    Type: {animal['characteristics'].get('type', 'Not available')}<br></p>\n"
-    output += f"    </li>\n"
+    output += f'            <strong>Location</strong>: {location_str}<br>\n'
+    output += f'            <strong>Type</strong>: {animal["characteristics"].get("type", "Not available")}<br>\n'
+    output += f'        </p>\n'
+    output += f'    </li>\n'
 
 print(output)
 
