@@ -58,23 +58,25 @@ def serialize_animals_data(animals_obj):
         #append information to each string
         output += f'    <li class="cards__item">\n'
         output += f'        <div class="card__title">{animal.get("name", "not available")}</div>\n'
-        output += f'        <p class="card__text">'
+        output += f'        <div class="card__text">'
+        output += f'            <ul class ="card_details">'
 
         characteristics = animal.get("characteristics", {})
-        output += f'            <strong>Diet</strong>: {characteristics.get("diet", "Not available")}<br>\n'
+        output += f'                <li class="card_detail"><strong>Diet</strong>: {characteristics.get("diet", "Not available")}</li>\n'
 
         locations = animal.get("locations")
         location_str = locations[0] if locations else "Unknown"
-        output += f'            <strong>Location</strong>: {location_str}<br>\n'
-        output += f'            <strong>Type</strong>: {characteristics.get("type", "Not available")}<br>\n'
+        output += f'                <li class="card_detail"><strong>Location</strong>: {location_str}</li>\n'
+        output += f'                <li class="card_detail"><strong>Type</strong>: {characteristics.get("type", "Not available")}</li>\n'
         # Bonus fields
-        output += f'            <strong>Life-span</strong>: {characteristics.get("lifespan", "Not available")}<br>\n'
-        output += f'            <strong>Habitat</strong>: {characteristics.get("habitat", "Not available")}<br>\n'
-        output += f'            <strong>Slogan</strong>: {characteristics.get("slogan", "Not available")}<br>\n'
-        output += f'            <strong>Color</strong>: {characteristics.get("color", "Not available")}<br>\n'
-        output += f'            <strong>Speed</strong>: {characteristics.get("top_speed", "Not available")}<br>\n'
-        output += f'            <strong>Temperament</strong>: {characteristics.get("temperament", "Not available")}<br>\n'
-        output += f'        </p>\n'
+        output += f'                <li class="card_detail"><strong>Life-span</strong>: {characteristics.get("lifespan", "Not available")}</li>\n'
+        output += f'                <li class="card_detail"><strong>Habitat</strong>: {characteristics.get("habitat", "Not available")}</li>\n'
+        output += f'                <li class="card_detail"><strong>Slogan</strong>: {characteristics.get("slogan", "Not available")}</li>\n'
+        output += f'                <li class="card_detail"><strong>Color</strong>: {characteristics.get("color", "Not available")}</li>\n'
+        output += f'                <li class="card_detail"><strong>Speed</strong>: {characteristics.get("top_speed", "Not available")}</li>\n'
+        output += f'                <li class="card_detail"><strong>Temperament</strong>: {characteristics.get("temperament", "Not available")}</li>\n'
+        output += f'            </ul>\n'
+        output += f'        </div>\n'
         output += f'    </li>\n'
     return output
 
