@@ -67,6 +67,13 @@ def serialize_animals_data(animals_obj):
         location_str = locations[0] if locations else "Unknown"
         output += f'            <strong>Location</strong>: {location_str}<br>\n'
         output += f'            <strong>Type</strong>: {characteristics.get("type", "Not available")}<br>\n'
+        # Bonus fields
+        output += f'            <strong>Life-span</strong>: {characteristics.get("lifespan", "Not available")}<br>\n'
+        output += f'            <strong>Habitat</strong>: {characteristics.get("habitat", "Not available")}<br>\n'
+        output += f'            <strong>Slogan</strong>: {characteristics.get("slogan", "Not available")}<br>\n'
+        output += f'            <strong>Color</strong>: {characteristics.get("color", "Not available")}<br>\n'
+        output += f'            <strong>Speed</strong>: {characteristics.get("top_speed", "Not available")}<br>\n'
+        output += f'            <strong>Temperament</strong>: {characteristics.get("temperament", "Not available")}<br>\n'
         output += f'        </p>\n'
         output += f'    </li>\n'
     return output
